@@ -45,12 +45,12 @@ app.listen(PORT, () => {
 // function initial() {
 //   Role.create({
 //     id: 1,
-//     name: "user"
+//     name: "developer"
 //   });
  
 //   Role.create({
 //     id: 2,
-//     name: "moderator"
+//     name: "ps"
 //   });
  
 //   Role.create({
