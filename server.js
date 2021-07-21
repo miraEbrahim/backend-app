@@ -57,4 +57,14 @@ app.listen(PORT, () => {
 //     id: 3,
 //     name: "admin"
 //   });
+
+//   Role.create({
+//     id: 4,
+//     name: "onboard"
+//   });
+
+//   Role.create({
+//     id: 5,
+//     name: "user"
+//   });
 // }

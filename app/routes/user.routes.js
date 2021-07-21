@@ -12,15 +12,27 @@ module.exports = function(app) {
 
   app.get("/api/test/all", controller.allAccess);
 
+  
+
   app.get(
-    "/api/test/developer",
+    "/api/test/user",
     [authJwt.verifyToken],
+    controller.userBoard
+  );
+  app.get(
+    "/api/test/onboard",
+    [authJwt.verifyToken, authJwt.isOnboard],
+    controller.onboardBoard
+  );
+  app.get(
+    "/api/test/dev",
+    [authJwt.verifyToken, authJwt.isDev],
     controller.developerBoard
   );
 
   app.get(
     "/api/test/ps",
-    [authJwt.verifyToken, authJwt.isPS],
+    [authJwt.verifyToken, authJwt.isPs],
     controller.psBoard
   );
 

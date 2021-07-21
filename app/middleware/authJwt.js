@@ -23,6 +23,42 @@ verifyToken = (req, res, next) => {
   });
 };
 
+isDev = (req, res, next) => {
+  User.findByPk(req.userId).then(user => {
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name === "developer") {
+          next();
+          return;
+        }
+      }
+
+      res.status(403).send({
+        message: "Require developer Role!"
+      });
+      return;
+    });
+  });
+};
+
+isOnboard = (req, res, next) => {
+  User.findByPk(req.userId).then(user => {
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name === "onboard") {
+          next();
+          return;
+        }
+      }
+
+      res.status(403).send({
+        message: "Require Onboard Role!"
+      });
+      return;
+    });
+  });
+};
+
 isAdmin = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
@@ -41,7 +77,7 @@ isAdmin = (req, res, next) => {
   });
 };
 
-isPS = (req, res, next) => {
+isPs = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
@@ -58,32 +94,44 @@ isPS = (req, res, next) => {
   });
 };
 
-isPsOrAdmin = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
-    user.getRoles().then(roles => {
-      for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "PS") {
-          next();
-          return;
-        }
+// isPsDevOnBoardAdmin = (req, res, next) => {
+//   User.findByPk(req.userId).then(user => {
+//     user.getRoles().then(roles => {
+//       for (let i = 0; i < roles.length; i++) {
+//         if (roles[i].name === "ps") {
+//           next();
+//           return;
+//         }
 
-        if (roles[i].name === "admin") {
-          next();
-          return;
-        }
-      }
+//         if (roles[i].name === "admin") {
+//           next();
+//           return;
+//         }
 
-      res.status(403).send({
-        message: "Require PS or Admin Role!"
-      });
-    });
-  });
-};
+//         if (roles[i].name === "onboard") {
+//           next();
+//           return;
+//         }
+
+//         if (roles[i].name === "dev") {
+//           next();
+//           return;
+//         }
+//       }
+
+//       res.status(403).send({
+//         message: "Require  Admin Role!"
+//       });
+//     });
+//   });
+// };
 
 const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
-  isPS: isPS,
-  isPsOrAdmin: isPsOrAdmin
+  isPs: isPs,
+  // isPsOrAdmin: isPsOrAdmin,
+  isDev: isDev,
+  isOnboard: isOnboard
 };
 module.exports = authJwt;
